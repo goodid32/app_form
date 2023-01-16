@@ -1,5 +1,16 @@
 import streamlit as st
 import datetime
+import sqlite3
+import pandas as pd
+import os.path
+
+file_path = os.path.dirname(__file__)
+db_file_path = os.path.join(file_path, 'users.db')
+
+
+con = sqlite3.connect(db_file_path)
+cur = con.cursor()
+
 st.subheader('회원가입 폼')
 
 with st.form('my_form', clear_on_submit=True):
@@ -21,4 +32,20 @@ with st.form('my_form', clear_on_submit=True):
             st.warning('비밀번호가 일치하지 않습니다!!')
             st.stop()
 
+        cur.execute(f"INSERT INTO users ("
+                    f"uid,"
+                    f"uname,"
+                    f"upw,"
+                    f"ubd,"
+                    f"ugender) VALUES ("
+                    f"'{uid}','{uname}','{upw}',"
+                    f"'{ubd}','{ugender}')")
+        con.commit()
+
+
         st.success(f'{uid} {uname} {upw} {upw_chk} {ubd} {ugender}')
+
+st.subheather('회원가입 폼')
+
+df =pd.read_sql('SLECT * FROM user', con)
+st.dataframe(df)

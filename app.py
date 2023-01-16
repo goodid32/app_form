@@ -42,10 +42,9 @@ with st.form('my_form', clear_on_submit=True):
                     f"'{ubd}','{ugender}')")
         con.commit()
 
-
         st.success(f'{uid} {uname} {upw} {upw_chk} {ubd} {ugender}')
 
-st.subheather('회원가입 폼')
+st.subheader('회원가입 폼')
 
 df =pd.read_sql('SLECT * FROM user', con)
 st.dataframe(df)
